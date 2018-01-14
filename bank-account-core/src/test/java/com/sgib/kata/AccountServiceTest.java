@@ -4,11 +4,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.ZonedDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +22,9 @@ public class AccountServiceTest {
 
     @Mock
     private AccountDao accountDao;
+
+    @Mock
+    private Account account;
 
     @Test
     public void makeDeposit_negativeAmount_throwException() {
@@ -47,7 +51,7 @@ public class AccountServiceTest {
     @Test
     public void makeDeposit_tooBigAmount_throwException() {
         // given
-        final long tooBigAmount = AccountService.MAX_DEPOSIT_AMOUNT_ALLOWED + 1;
+        final long tooBigAmount = Utils.MAX_DEPOSIT_AMOUNT_ALLOWED + 1;
 
         // when, then
         assertThatExceptionOfType(AccountException.class)
@@ -59,14 +63,13 @@ public class AccountServiceTest {
     public void makeDeposit_validAmount_depositMade() {
         // given
         final long validAmount = 200;
-        final Account account = Mockito.mock(Account.class);
         when(accountDao.getAccount()).thenReturn(account);
 
         // when
         accountService.makeDeposit(validAmount);
 
         // then
-        verify(account).addDepositOperationAndIncrementBalance(validAmount);
+        verify(account).addDepositOperation(validAmount);
     }
 
     @Test
@@ -77,7 +80,7 @@ public class AccountServiceTest {
         // when, then
         assertThatExceptionOfType(AccountException.class)
                 .isThrownBy(() -> accountService.makeWithdraw(negativeAmount))
-                .withMessage("the amount for a withdraw must be positive");
+                .withMessage("the amount for a withdrawal must be positive");
     }
 
     @Test
@@ -88,7 +91,7 @@ public class AccountServiceTest {
         // when, then
         assertThatExceptionOfType(AccountException.class)
                 .isThrownBy(() -> accountService.makeWithdraw(negativeAmount))
-                .withMessage("the amount for a withdraw must be positive");
+                .withMessage("the amount for a withdrawal must be positive");
     }
 
     @Test
@@ -98,16 +101,16 @@ public class AccountServiceTest {
         when(accountDao.isBalanceSufficient(anyLong())).thenReturn(isBalanceSufficient);
 
         // when, then
+
         assertThatExceptionOfType(AccountException.class)
                 .isThrownBy(() -> accountService.makeWithdraw(50))
-                .withMessage("balance insifficient for a withdraw of 50. Please contact your adviser");
+                .withMessage("insufficient balance for a withdrawal of 50. Please contact your adviser");
     }
 
     @Test
     public void makeWithdrawal_sufficientBalance_withdrawMade() {
         // given
         final int validAmount = 50;
-        final Account account = Mockito.mock(Account.class);
         final boolean isBalanceSufficient = true;
         when(accountDao.isBalanceSufficient(anyLong())).thenReturn(isBalanceSufficient);
         when(accountDao.getAccount()).thenReturn(account);
@@ -116,16 +119,27 @@ public class AccountServiceTest {
         accountService.makeWithdraw(validAmount);
 
         // then
-        verify(account).addWithdrawalOperationAndDecrementBalance(validAmount);
+        verify(account).addWithdrawalOperation(validAmount);
     }
 
     @Test
-    public void getAccountStatment(){
+    public void getAccountStatment_betweenTwoDates_correctAccountStatment() {
         // given
-
+        final Account account = new Account();
+        account.addDepositOperation(500);
+        account.addWithdrawalOperation(200);
+        account.addDepositOperation(50);
+        when(accountDao.getAccount()).thenReturn(account);
+        final ZonedDateTime to = ZonedDateTime.now();
+        final ZonedDateTime from = to.minusDays(30);
         // when
+        final AccountStatment accountStatment = accountService.getAccountStatment(from, to);
 
         // then
+        assertThat(accountStatment.getStatments())
+                .contains("14/01/2018    Deposit  500  500")
+                .contains("14/01/2018    Withdrawal  200  300")
+                .contains("14/01/2018    Deposit  50  350");
     }
 
 }

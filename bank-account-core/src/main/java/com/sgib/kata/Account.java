@@ -8,36 +8,31 @@ public class Account {
     private long balance;
     private List<Operation> operations = new ArrayList();
 
-    public Account() {}
+    public Account() {
+    }
 
     public Account(long initialBalance) {
         this.balance = initialBalance;
     }
 
-    public void addDepositOperationAndIncrementBalance(final long amount){
-        addDepositOperation(amount);
-        incrementBalance(amount);
+    public void addDepositOperation(final long amount) {
+        long actualBalance = getIncrementedBalance(amount);
+        operations.add(new Operation(OperationType.DEPOSIT, amount, actualBalance));
+        this.balance = actualBalance;
     }
 
-    public void addWithdrawalOperationAndDecrementBalance(final long amount){
-        addWithdrawalOperation(amount);
-        decrementBalance(amount);
+    public void addWithdrawalOperation(final long amount) {
+        long actualBalance = getDecrementedBalance(amount);
+        operations.add(new Operation(OperationType.WITHDRAWAL, amount, actualBalance));
+        this.balance = actualBalance;
     }
 
-    public void incrementBalance(final long amount) {
-        this.balance += amount;
+    public long getIncrementedBalance(long amount) {
+        return balance + amount;
     }
 
-    public void decrementBalance(final long amount) {
-        this.balance -= amount;
-    }
-
-    public void addDepositOperation(final long amount){
-        operations.add(new Operation(OperationType.DEPOSIT, amount));
-    }
-
-    public void addWithdrawalOperation(final long amount){
-        operations.add(new Operation(OperationType.WITHDRAWAL, amount));
+    public long getDecrementedBalance(long amount) {
+        return balance - amount;
     }
 
     public long getBalance() {
