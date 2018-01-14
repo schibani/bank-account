@@ -9,7 +9,7 @@ public class AccountDao {
         getAccount().incrementBalance(amount);
     }
 
-    private Account getAccount(){
+    public Account getAccount(){
         return new Account();
     }
 }
