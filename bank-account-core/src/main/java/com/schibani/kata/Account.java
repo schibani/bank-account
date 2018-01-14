@@ -1,4 +1,4 @@
-package com.sgib.kata;
+package com.schibani.kata;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.sgib.kata;
+package com.schibani.kata;
 
 public enum OperationType {
     DEPOSIT ("Deposit"), WITHDRAWAL("Withdrawal");

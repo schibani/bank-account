@@ -1,4 +1,4 @@
-package com.sgib.kata;
+package com.schibani.kata;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sgib.kata.Utils.MAX_DEPOSIT_AMOUNT_ALLOWED;
+import static com.schibani.kata.Utils.MAX_DEPOSIT_AMOUNT_ALLOWED;
 
 @Service
 public class AccountService {

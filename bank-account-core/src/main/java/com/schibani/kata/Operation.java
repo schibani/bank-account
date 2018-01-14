@@ -1,8 +1,6 @@
-package com.sgib.kata;
+package com.schibani.kata;
 
 import java.time.ZonedDateTime;
-
-import static com.sgib.kata.Utils.DATE_FORMATTER;
 
 public class Operation {
 
@@ -39,6 +37,6 @@ public class Operation {
     }
 
     public String getPretyFormat() {
-            return String.format("%s    %s  %s  %s", DATE_FORMATTER.format(dateTime), operationType.getLabel(), amount, balance);
+            return String.format("%s    %s  %s  %s", Utils.DATE_FORMATTER.format(dateTime), operationType.getLabel(), amount, balance);
     }
 }
