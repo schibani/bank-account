@@ -24,7 +24,8 @@ public class AccountService {
             throw new AccountException(String.format("the maximum amount allowed for a deposit (%s) is exceeded", MAX_DEPOSIT_AMOUNT_ALLOWED));
         }
 
-        accountDao.makeDeposit(amount);
+        final Account account = accountDao.getAccount();
+        account.addDepositOperationAndIncrementBalance(amount);
 
         LOGGER.info("Deposit of {} is made with success", amount);
     }
@@ -40,7 +41,8 @@ public class AccountService {
             throw new AccountException(String.format("balance insifficient for a withdraw of %s. Please contact your adviser", amount));
         }
 
-        accountDao.makeWithdraw(amount);
+        final Account account = accountDao.getAccount();
+        account.addWithdrawalOperationAndDecrementBalance(amount);
 
         LOGGER.info("Withdrawal of {} is made with success", amount);
     }

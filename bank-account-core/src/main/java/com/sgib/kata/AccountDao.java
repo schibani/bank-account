@@ -18,6 +18,7 @@ public class AccountDao {
     }
 
     public Account getAccount(){
+        // in real life, we get the account from external source (database, ...)
         return new Account();
     }
 }

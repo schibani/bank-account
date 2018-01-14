@@ -4,9 +4,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -57,12 +59,14 @@ public class AccountServiceTest {
     public void makeDeposit_validAmount_depositMade() {
         // given
         final long validAmount = 200;
+        final Account account = Mockito.mock(Account.class);
+        when(accountDao.getAccount()).thenReturn(account);
 
         // when
         accountService.makeDeposit(validAmount);
 
         // then
-        verify(accountDao).makeDeposit(validAmount);
+        verify(account).addDepositOperationAndIncrementBalance(validAmount);
     }
 
     @Test
@@ -103,13 +107,25 @@ public class AccountServiceTest {
     public void makeWithdrawal_sufficientBalance_withdrawMade() {
         // given
         final int validAmount = 50;
+        final Account account = Mockito.mock(Account.class);
         final boolean isBalanceSufficient = true;
         when(accountDao.isBalanceSufficient(anyLong())).thenReturn(isBalanceSufficient);
+        when(accountDao.getAccount()).thenReturn(account);
 
         // when
         accountService.makeWithdraw(validAmount);
 
         // then
-        verify(accountDao).makeWithdraw(validAmount);
+        verify(account).addWithdrawalOperationAndDecrementBalance(validAmount);
     }
+
+    @Test
+    public void getAccountStatment(){
+        // given
+
+        // when
+
+        // then
+    }
+
 }
