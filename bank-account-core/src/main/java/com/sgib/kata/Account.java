@@ -14,7 +14,7 @@ public class Account {
         this.balance += amount;
     }
 
-    public void makeWithdraw(final long amount) {
+    public void decrementBalance(final long amount) {
         this.balance -= amount;
     }
 

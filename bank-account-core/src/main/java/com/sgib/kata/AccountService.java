@@ -28,4 +28,20 @@ public class AccountService {
 
         LOGGER.info("Deposit of {} is made with success", amount);
     }
+
+    public void makeWithdraw(final long amount){
+        if(amount <= 0){
+            throw new AccountException("the amount for a withdraw must be positive");
+        }
+
+        final boolean balanceSufficient = accountDao.isBalanceSufficient(amount);
+
+        if(!balanceSufficient){
+            throw new AccountException(String.format("balance insifficient for a withdraw of %s. Please contact your adviser", amount));
+        }
+
+        accountDao.makeWithdraw(amount);
+
+        LOGGER.info("Withdrawal of {} is made with success", amount);
+    }
 }

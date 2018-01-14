@@ -20,4 +20,17 @@ public class AccountTest {
         // then
         assertThat(account.getBalance()).as("total balance").isEqualTo(150);
     }
+
+    @Test
+    public void decrementBalance_amount_balanceDecremented() {
+        // given
+        final int amount = 120;
+        final Account account = new Account(200);
+
+        // when
+        account.decrementBalance(amount);
+
+        // then
+        assertThat(account.getBalance()).as("total balance remained").isEqualTo(80);
+    }
 }
