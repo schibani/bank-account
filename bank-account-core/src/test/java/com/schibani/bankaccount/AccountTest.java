@@ -6,8 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountTest {
 
-    private Account account = new Account();
-
     @Test
     public void addDepositOperation_amount_depositOperationAdded() {
         // given

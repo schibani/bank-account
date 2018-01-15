@@ -18,7 +18,6 @@
         <java.version>1.8</java.version>
 
         <!-- Core dependency properties -->
-        <spring-boot-starter.version>1.5.9.RELEASE</spring-boot-starter.version>
         <spring.version>5.0.2.RELEASE</spring.version>
         <guava.version>23.0</guava.version>
 
@@ -110,5 +109,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>
