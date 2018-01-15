@@ -3,8 +3,6 @@ package com.schibani.bankaccount;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.List;
 
 @Repository
 public class AccountDao {
@@ -13,19 +11,16 @@ public class AccountDao {
     private Account account;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         account = new Account();
     }
 
-    public void init(long initialBalance){
+    public void init(long initialBalance) {
         account = new Account(initialBalance);
     }
-    public Account getAccount(){
+
+    public Account getAccount() {
         // in the real life, we get the account from external source (database, ...)
         return account;
-    }
-
-    public boolean isBalanceSufficient(long amount){
-        return getAccount().getBalance() >= amount;
     }
 }

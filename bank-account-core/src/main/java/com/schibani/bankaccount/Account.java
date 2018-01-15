@@ -27,6 +27,10 @@ public class Account {
         this.balance = actualBalance;
     }
 
+    public boolean isBalanceSufficient(long amount) {
+        return balance >= amount;
+    }
+
     public long getIncrementedBalance(long amount) {
         return balance + amount;
     }

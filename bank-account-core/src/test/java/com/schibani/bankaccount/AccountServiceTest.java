@@ -79,7 +79,7 @@ public class AccountServiceTest {
 
         // when, then
         assertThatExceptionOfType(AccountException.class)
-                .isThrownBy(() -> accountService.makeWithdraw(negativeAmount))
+                .isThrownBy(() -> accountService.makeWithdrawal(negativeAmount))
                 .withMessage("the amount for a withdrawal must be positive");
     }
 
@@ -90,7 +90,7 @@ public class AccountServiceTest {
 
         // when, then
         assertThatExceptionOfType(AccountException.class)
-                .isThrownBy(() -> accountService.makeWithdraw(negativeAmount))
+                .isThrownBy(() -> accountService.makeWithdrawal(negativeAmount))
                 .withMessage("the amount for a withdrawal must be positive");
     }
 
@@ -98,25 +98,25 @@ public class AccountServiceTest {
     public void makeWithdrawal_insufficientBalance_throwException() {
         // given
         final boolean isBalanceSufficient = false;
-        when(accountDao.isBalanceSufficient(anyLong())).thenReturn(isBalanceSufficient);
+        when(accountDao.getAccount()).thenReturn(account);
+        when(account.isBalanceSufficient(anyLong())).thenReturn(isBalanceSufficient);
 
         // when, then
-
         assertThatExceptionOfType(AccountException.class)
-                .isThrownBy(() -> accountService.makeWithdraw(50))
+                .isThrownBy(() -> accountService.makeWithdrawal(50))
                 .withMessage("insufficient balance for a withdrawal of 50. Please contact your adviser");
     }
 
     @Test
-    public void makeWithdrawal_sufficientBalance_withdrawMade() {
+    public void makeWithdrawal_sufficientBalance_withdrawalMade() {
         // given
         final int validAmount = 50;
         final boolean isBalanceSufficient = true;
-        when(accountDao.isBalanceSufficient(anyLong())).thenReturn(isBalanceSufficient);
+        when(account.isBalanceSufficient(anyLong())).thenReturn(isBalanceSufficient);
         when(accountDao.getAccount()).thenReturn(account);
 
         // when
-        accountService.makeWithdraw(validAmount);
+        accountService.makeWithdrawal(validAmount);
 
         // then
         verify(account).addWithdrawalOperation(validAmount);
@@ -133,6 +133,7 @@ public class AccountServiceTest {
         when(accountDao.getAccount()).thenReturn(account);
         final ZonedDateTime to = ZonedDateTime.now();
         final ZonedDateTime from = to.minusDays(30);
+
         // when
         final AccountStatment accountStatment = accountService.getAccountStatment(from, to);
 

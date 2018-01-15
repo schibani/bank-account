@@ -15,16 +15,16 @@ public class AccountService {
     @Autowired
     private AccountDao accountDao;
 
-    public Account getAccount(){
+    public Account getAccount() {
         return accountDao.getAccount();
     }
 
-    public void makeDeposit(final long amount){
-        if(amount <= 0){
+    public void makeDeposit(final long amount) {
+        if (amount <= 0) {
             throw new AccountException("the amount for a deposit must be positive");
         }
 
-        if(amount > MAX_DEPOSIT_AMOUNT_ALLOWED){
+        if (amount > MAX_DEPOSIT_AMOUNT_ALLOWED) {
             throw new AccountException(String.format("the maximum amount allowed for a deposit (%s) is exceeded", MAX_DEPOSIT_AMOUNT_ALLOWED));
         }
 
@@ -32,18 +32,19 @@ public class AccountService {
         account.addDepositOperation(amount);
     }
 
-    public void makeWithdraw(final long amount){
-        if(amount <= 0){
+    public void makeWithdrawal(final long amount) {
+        if (amount <= 0) {
             throw new AccountException("the amount for a withdrawal must be positive");
         }
 
-        final boolean balanceSufficient = accountDao.isBalanceSufficient(amount);
+        final Account account = accountDao.getAccount();
 
-        if(!balanceSufficient){
+        final boolean balanceSufficient = account.isBalanceSufficient(amount);
+
+        if (!balanceSufficient) {
             throw new AccountException(String.format("insufficient balance for a withdrawal of %s. Please contact your adviser", amount));
         }
 
-        final Account account = accountDao.getAccount();
         account.addWithdrawalOperation(amount);
     }
 
