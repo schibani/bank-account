@@ -1,4 +1,4 @@
-package com.schibani.kata;
+package com.schibani.bankaccount;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,13 +7,17 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.schibani.kata.Utils.MAX_DEPOSIT_AMOUNT_ALLOWED;
+import static com.schibani.bankaccount.Utils.MAX_DEPOSIT_AMOUNT_ALLOWED;
 
 @Service
 public class AccountService {
 
     @Autowired
     private AccountDao accountDao;
+
+    public Account getAccount(){
+        return accountDao.getAccount();
+    }
 
     public void makeDeposit(final long amount){
         if(amount <= 0){

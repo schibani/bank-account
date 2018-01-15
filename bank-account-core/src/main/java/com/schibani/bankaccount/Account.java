@@ -1,4 +1,4 @@
-package com.schibani.kata;
+package com.schibani.bankaccount;
 
 import java.util.ArrayList;
 import java.util.List;

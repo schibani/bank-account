@@ -4,20 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.sgib.kata</groupId>
+    <groupId>com.schibani.bankaccount</groupId>
     <artifactId>bank-account</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>bank-account-core</module>
+        <module>bank-account-tfn</module>
     </modules>
     <packaging>pom</packaging>
 
     <properties>
         <!-- Common properties -->
         <java.version>1.8</java.version>
-        <source.encoding>UTF-8</source.encoding>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.version>1.7.21</slf4j.version>
 
         <!-- Core dependency properties -->
         <spring-boot-starter.version>1.5.9.RELEASE</spring-boot-starter.version>
@@ -31,7 +29,6 @@
         <cucumber.version>1.2.5</cucumber.version>
 
         <!-- Maven plugin properties -->
-        <surefire.version>2.14</surefire.version>
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
     </properties>
     <build>
@@ -49,7 +46,11 @@
     </build>
     <dependencyManagement>
         <dependencies>
-            <!-- Spring -->
+            <dependency>
+                <groupId>com.schibani.bankaccount</groupId>
+                <artifactId>bank-account-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
@@ -60,6 +61,12 @@
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -103,4 +110,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>

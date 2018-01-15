@@ -1,4 +1,4 @@
-package com.schibani.kata;
+package com.schibani.bankaccount;
 
 public class AccountException extends  RuntimeException {
 

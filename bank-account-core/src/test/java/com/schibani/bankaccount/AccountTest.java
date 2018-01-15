@@ -1,4 +1,4 @@
-package com.schibani.kata;
+package com.schibani.bankaccount;
 
 import org.junit.Test;
 

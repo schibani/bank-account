@@ -1,4 +1,4 @@
-package com.schibani.kata;
+package com.schibani.bankaccount;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -125,6 +125,7 @@ public class AccountServiceTest {
     @Test
     public void getAccountStatment_betweenTwoDates_correctAccountStatment() {
         // given
+        final String date = Utils.DATE_FORMATTER.format(ZonedDateTime.now());
         final Account account = new Account();
         account.addDepositOperation(500);
         account.addWithdrawalOperation(200);
@@ -137,9 +138,9 @@ public class AccountServiceTest {
 
         // then
         assertThat(accountStatment.getStatments())
-                .contains("14/01/2018    Deposit  500  500")
-                .contains("14/01/2018    Withdrawal  200  300")
-                .contains("14/01/2018    Deposit  50  350");
+                .contains(date + "  Deposit  500  500")
+                .contains(date + "  Withdrawal  200  300")
+                .contains(date + "  Deposit  50  350");
     }
 
 }

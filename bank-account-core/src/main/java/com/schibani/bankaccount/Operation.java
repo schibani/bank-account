@@ -1,4 +1,4 @@
-package com.schibani.kata;
+package com.schibani.bankaccount;
 
 import java.time.ZonedDateTime;
 
@@ -37,6 +37,6 @@ public class Operation {
     }
 
     public String getPretyFormat() {
-            return String.format("%s    %s  %s  %s", Utils.DATE_FORMATTER.format(dateTime), operationType.getLabel(), amount, balance);
+            return String.format("%s  %s  %s  %s", Utils.DATE_FORMATTER.format(dateTime), operationType.getLabel(), amount, balance);
     }
 }
